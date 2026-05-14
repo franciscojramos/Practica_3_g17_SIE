@@ -1,0 +1,39 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<main class="max-w-lg mx-auto px-4 py-12 flex-grow">
+  <h1 class="text-2xl font-bold text-brand mb-6">Crear cuenta</h1>
+  <% if (error) { %>
+    <p class="mb-4 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2"><%= error %></p>
+  <% } %>
+  <form action="/registro" method="post" class="space-y-4 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+    <div>
+      <label for="nombre" class="block text-sm font-medium text-slate-700">Nombre</label>
+      <input id="nombre" name="nombre" type="text" required
+        class="mt-1 w-full border border-slate-300 rounded-lg px-3 py-2 text-sm" />
+    </div>
+    <div>
+      <label for="email" class="block text-sm font-medium text-slate-700">Email</label>
+      <input id="email" name="email" type="email" required autocomplete="email"
+        class="mt-1 w-full border border-slate-300 rounded-lg px-3 py-2 text-sm" />
+    </div>
+    <div>
+      <label for="password" class="block text-sm font-medium text-slate-700">Contraseña (mín. 6 caracteres)</label>
+      <input id="password" name="password" type="password" required minlength="6" autocomplete="new-password"
+        class="mt-1 w-full border border-slate-300 rounded-lg px-3 py-2 text-sm" />
+    </div>
+    <div>
+      <label for="nif_cif" class="block text-sm font-medium text-slate-700">NIF / CIF <span class="text-slate-400 font-normal">(opcional)</span></label>
+      <input id="nif_cif" name="nif_cif" type="text" maxlength="15"
+        class="mt-1 w-full border border-slate-300 rounded-lg px-3 py-2 text-sm" />
+    </div>
+    <button type="submit" class="w-full py-2.5 rounded-lg bg-accent-brand hover:brightness-110 text-white font-semibold">
+      Registrarse
+    </button>
+  </form>
+  <p class="mt-4 text-center text-sm text-slate-600">
+    ¿Ya tiene cuenta? <a href="/login" class="text-brand font-semibold hover:underline">Ingresar</a>
+  </p>
+</main>
+
+<%- include('partials/footer') %>

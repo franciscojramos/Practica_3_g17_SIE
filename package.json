@@ -1,0 +1,26 @@
+{
+  "name": "bookar-tienda",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Prototipo tienda BookAR — Express + EJS + MariaDB",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js",
+    "docker:up": "docker compose up --build -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f web",
+    "db:setup": "node scripts/setup-db.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "mysql2": "^3.11.3"
+  }
+}

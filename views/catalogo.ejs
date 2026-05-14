@@ -1,0 +1,56 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<main class="max-w-6xl mx-auto px-4 py-10 flex-grow">
+  <h1 class="text-2xl font-bold text-brand mb-6">Catálogo</h1>
+  <p class="text-slate-600 mb-8 text-sm">
+    Precios y <code class="bg-slate-100 px-1 rounded">stock_actual</code> se leen en tiempo real desde la tabla
+    <code class="bg-slate-100 px-1 rounded">PRODUCTO</code> (GTIN como clave).
+  </p>
+
+  <% if (!productos.length) { %>
+    <p class="text-slate-500">No hay productos cargados.</p>
+  <% } else { %>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% productos.forEach(function (p) {
+           const precio = Number(p.precio);
+           const img = p.imagen_url ? (p.imagen_url.startsWith('http') ? p.imagen_url : p.imagen_url) : null;
+      %>
+        <article class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+          <% if (img) { %>
+            <div class="aspect-[4/3] bg-slate-100 overflow-hidden flex items-center justify-center">
+              <img src="<%= img %>" alt="" class="max-h-48 w-full object-contain" loading="lazy" />
+            </div>
+          <% } %>
+          <div class="p-5 flex flex-col flex-grow">
+            <p class="text-[10px] text-slate-500 font-mono">GTIN <%= p.gtin %></p>
+            <h2 class="font-semibold text-lg text-slate-900 mt-1"><%= p.nombre_producto %></h2>
+            <% if (p.asignatura) { %>
+              <p class="mt-1 text-xs text-accent-brand font-medium"><%= p.asignatura %></p>
+            <% } %>
+            <p class="mt-4 text-xl font-bold text-brand"><%= formatEur(precio) %></p>
+            <p class="text-sm <%= p.stock_actual > 0 ? 'text-emerald-700' : 'text-red-600' %>">
+              Stock: <%= p.stock_actual %>
+            </p>
+            <% if (p.stock_actual > 0) { %>
+              <form action="/carrito/agregar" method="post" class="mt-4 flex gap-2 items-end">
+                <input type="hidden" name="gtin" value="<%= p.gtin %>" />
+                <label class="text-xs text-slate-500">
+                  Cant.
+                  <input type="number" name="cantidad" value="1" min="1" max="<%= p.stock_actual %>" class="mt-1 w-20 border border-slate-300 rounded px-2 py-1 text-sm" />
+                </label>
+                <button type="submit" class="flex-1 py-2 rounded-lg bg-accent-brand hover:brightness-110 text-white text-sm font-semibold">
+                  Agregar
+                </button>
+              </form>
+            <% } else { %>
+              <p class="mt-4 text-sm text-slate-400">Sin stock</p>
+            <% } %>
+          </div>
+        </article>
+      <% }); %>
+    </div>
+  <% } %>
+</main>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,58 @@
+# BookAR — MariaDB + Node en un solo entorno
+# Uso: docker compose up --build
+# Web: http://localhost:3001
+# Adminer (UI MariaDB): http://localhost:8080 — servidor "db", usuario root, BD bookar_p1
+#
+# Primera vez: se crea la base y se ejecuta sql/schema.sql automáticamente.
+# Para borrar datos y empezar de cero: docker compose down -v
+
+services:
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: bookar_dev_root
+      MARIADB_DATABASE: bookar_p1
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      # Solo la primera vez (volumen vacío): crea tablas + EMPRESA + 12 productos
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    # Sin puerto publicado: evita choque con MariaDB del host (3306). La app usa la red interna "db".
+    # Para inspeccionar desde fuera: descomenta -> "3307:3306"
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -uroot -p\"$$MARIADB_ROOT_PASSWORD\" --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 25s
+
+  web:
+    build: .
+    restart: unless-stopped
+    ports:
+      # Si 3000 está ocupado en tu PC, cambia la primera cifra (ej. 3001:3000)
+      - "3001:3000"
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_USER: root
+      DB_PASSWORD: bookar_dev_root
+      DB_NAME: bookar_p1
+      SESSION_SECRET: bookar-docker-dev-cambiar-en-produccion
+      PORT: "3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    # Si 8080 no abre tras añadir Adminer: docker compose up -d --force-recreate adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mariadb_data:

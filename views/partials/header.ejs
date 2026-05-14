@@ -1,0 +1,33 @@
+<header class="bg-brand text-white shadow-md">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+    <a href="/" class="flex items-center gap-3 group">
+      <img src="/logo-bookar.png" alt="BookAR" class="h-11 w-auto bg-white rounded px-1" />
+      <div class="leading-tight">
+        <span class="text-xl font-bold tracking-tight"><%= brand.nombre %></span>
+        <p class="text-[10px] uppercase tracking-[0.2em] text-white/80">Aprende y diviértete</p>
+      </div>
+    </a>
+    <nav class="flex flex-wrap items-center gap-2 text-sm">
+      <a href="/" class="px-3 py-1.5 rounded-md hover:bg-white/10 <%= (typeof page !== 'undefined' && page === 'home') ? 'bg-white/15' : '' %>">Inicio</a>
+      <a href="/catalogo" class="px-3 py-1.5 rounded-md hover:bg-white/10 <%= (typeof page !== 'undefined' && page === 'catalogo') ? 'bg-white/15' : '' %>">Catálogo</a>
+      <a href="/carrito" class="px-3 py-1.5 rounded-md hover:bg-white/10 <%= (typeof page !== 'undefined' && page === 'carrito') ? 'bg-white/15' : '' %>">Carrito</a>
+      <% if (cliente) { %>
+        <span class="text-white/90 px-2 hidden sm:inline">Hola, <%= cliente.nombre %></span>
+        <form action="/logout" method="post" class="inline">
+          <button type="submit" class="px-3 py-1.5 rounded-md bg-white/10 hover:bg-white/20">Salir</button>
+        </form>
+      <% } else { %>
+        <a href="/login" class="px-3 py-1.5 rounded-md hover:bg-white/10 <%= (typeof page !== 'undefined' && page === 'login') ? 'bg-white/15' : '' %>">Ingresar</a>
+        <a href="/registro" class="px-3 py-1.5 rounded-md bg-accent-brand hover:brightness-110 text-white font-semibold">Registrarse</a>
+      <% } %>
+    </nav>
+  </div>
+</header>
+
+<% if (typeof flash !== 'undefined' && flash) { %>
+  <div class="max-w-6xl mx-auto px-4 pt-4">
+    <div class="rounded-lg border border-amber-200 bg-amber-50 text-amber-900 px-4 py-3 text-sm" role="status">
+      <%= flash %>
+    </div>
+  </div>
+<% } %>

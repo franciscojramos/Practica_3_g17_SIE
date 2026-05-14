@@ -1,0 +1,76 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<main class="max-w-4xl mx-auto px-4 py-10 flex-grow">
+  <h1 class="text-2xl font-bold text-brand mb-2">Carrito</h1>
+  <p class="text-sm text-slate-600 mb-6">
+    Los importes se recalculan desde la base al cargar esta página (fuente única de verdad).
+  </p>
+
+  <% if (!lineas.length) { %>
+    <p class="text-slate-500">Su carrito está vacío.</p>
+    <a href="/catalogo" class="inline-block mt-4 text-accent-brand font-semibold hover:underline">Ir al catálogo</a>
+  <% } else { %>
+    <form action="/carrito/actualizar" method="post">
+      <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+        <table class="min-w-full text-sm">
+          <thead class="bg-slate-100 text-left text-slate-700">
+            <tr>
+              <th class="px-4 py-3">Producto</th>
+              <th class="px-4 py-3">GTIN</th>
+              <th class="px-4 py-3">Precio unit.</th>
+              <th class="px-4 py-3">Cantidad</th>
+              <th class="px-4 py-3 text-right">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% lineas.forEach(function (l) { %>
+              <tr class="border-t border-slate-100">
+                <td class="px-4 py-3 font-medium"><%= l.nombre %></td>
+                <td class="px-4 py-3 font-mono text-xs text-slate-600"><%= l.gtin %></td>
+                <td class="px-4 py-3"><%= formatEur(l.precio_unitario) %></td>
+                <td class="px-4 py-3">
+                  <input type="number" name="qty_<%= l.gtin %>" value="<%= l.cantidad %>" min="0" max="<%= l.stock_actual %>"
+                    class="w-20 border border-slate-300 rounded px-2 py-1" />
+                </td>
+                <td class="px-4 py-3 text-right"><%= formatEur(l.subtotal) %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-3 items-center justify-between">
+        <button type="submit" class="px-4 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-sm">
+          Actualizar cantidades
+        </button>
+        <p class="text-lg font-bold text-brand">Total: <%= formatEur(total) %></p>
+      </div>
+    </form>
+
+    <div class="mt-8 p-6 rounded-xl border border-slate-200 bg-brand-soft">
+      <h2 class="font-semibold text-brand">Finalizar compra</h2>
+      <p class="mt-2 text-sm text-slate-700">
+        Solo los clientes registrados pueden confirmar la venta. Al hacerlo, el sistema ejecuta una
+        <strong>transacción SQL atómica</strong>: inserta en <code class="text-xs bg-white px-1 rounded">VENTA</code> y
+        <code class="text-xs bg-white px-1 rounded">DETALLE_VENTA</code> y descuenta <code class="text-xs bg-white px-1 rounded">stock_actual</code> en <code class="text-xs bg-white px-1 rounded">PRODUCTO</code>.
+      </p>
+      <% if (cliente) { %>
+        <form action="/checkout" method="post" class="mt-4">
+          <button type="submit" class="px-6 py-3 rounded-lg bg-accent-brand hover:brightness-110 text-white font-semibold shadow">
+            Confirmar compra
+          </button>
+        </form>
+      <% } else { %>
+        <p class="mt-4 text-sm text-slate-600">
+          <a href="/login?next=%2Fcarrito" class="text-accent-brand font-semibold hover:underline">Inicie sesión</a>
+          o <a href="/registro" class="text-accent-brand font-semibold hover:underline">regístrese</a> para habilitar el botón de finalizar.
+        </p>
+        <button type="button" disabled class="mt-3 px-6 py-3 rounded-lg bg-slate-300 text-slate-500 cursor-not-allowed font-semibold">
+          Finalizar pedido (requiere sesión)
+        </button>
+      <% } %>
+    </div>
+  <% } %>
+</main>
+
+<%- include('partials/footer') %>

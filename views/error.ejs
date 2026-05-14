@@ -1,0 +1,11 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<main class="max-w-xl mx-auto px-4 py-16 flex-grow text-center">
+  <p class="text-6xl font-bold text-slate-300"><%= typeof status !== 'undefined' ? status : '?' %></p>
+  <h1 class="mt-4 text-xl font-semibold text-brand"><%= typeof title !== 'undefined' ? title : 'Error' %></h1>
+  <p class="mt-2 text-slate-600"><%= typeof message !== 'undefined' ? message : '' %></p>
+  <a href="/" class="inline-block mt-8 text-accent-brand font-semibold hover:underline">Volver al inicio</a>
+</main>
+
+<%- include('partials/footer') %>
