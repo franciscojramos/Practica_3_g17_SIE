@@ -13,7 +13,17 @@ CREATE TABLE IF NOT EXISTS EMPRESA (
     color_secundario VARCHAR(7)
 );
 
--- 2. GESTIÓN DE CLIENTES
+-- 2. EQUIPO FUNDADOR
+CREATE TABLE IF NOT EXISTS EMPLEADO (
+    id_empleado INT AUTO_INCREMENT PRIMARY KEY,
+    nombre      VARCHAR(100) NOT NULL,
+    apellidos   VARCHAR(100) NOT NULL,
+    foto_url    VARCHAR(255),
+    puesto      VARCHAR(100) NOT NULL,
+    bio         TEXT
+);
+
+-- 3. GESTIÓN DE CLIENTES
 CREATE TABLE IF NOT EXISTS CLIENTE (
     id_cliente INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -22,7 +32,7 @@ CREATE TABLE IF NOT EXISTS CLIENTE (
     nif_cif VARCHAR(15)
 );
 
--- 3. CATÁLOGO E INVENTARIO
+-- 4. CATÁLOGO E INVENTARIO
 CREATE TABLE IF NOT EXISTS PRODUCTO (
     gtin VARCHAR(14) PRIMARY KEY,
     nombre_producto VARCHAR(100) NOT NULL,
@@ -32,7 +42,7 @@ CREATE TABLE IF NOT EXISTS PRODUCTO (
     imagen_url VARCHAR(255)
 );
 
--- 4. TRANSACCIONES Y CIERRE DE CICLO
+-- 5. TRANSACCIONES Y CIERRE DE CICLO
 CREATE TABLE IF NOT EXISTS VENTA (
     id_venta INT AUTO_INCREMENT PRIMARY KEY,
     id_cliente INT,
@@ -53,6 +63,7 @@ CREATE TABLE IF NOT EXISTS DETALLE_VENTA (
 
 -- Datos iniciales — identidad (Grupo 17)
 -- Limpiamos si hubiera datos previos
+TRUNCATE TABLE EMPLEADO;
 TRUNCATE TABLE EMPRESA;
 
 INSERT INTO EMPRESA (id_empresa, nombre, mision, vision, socios, color_primario, color_secundario)
@@ -65,6 +76,13 @@ VALUES (
     '#004B7A', -- Azul Corporativo
     '#F58220' -- Naranja AR
 );
+
+-- Equipo fundador (Grupo 17)
+INSERT INTO EMPLEADO (nombre, apellidos, foto_url, puesto, bio) VALUES
+('Santiago', 'Pérez Delgado',     NULL, 'CEO & Co-fundador',   'Apasionado por transformar la educación mediante la tecnología. Lidero la visión estratégica de BookAR y las relaciones con centros educativos.'),
+('Francisco José', 'Ramos Moya',  NULL, 'CTO & Co-fundador',   'Arquitecto del motor de realidad aumentada que da vida a nuestros libros. Experto en desarrollo de software e integración AR.'),
+('Santiago', 'Díaz Sabio',        NULL, 'COO & Co-fundador',   'Gestiono las operaciones y los acuerdos con instituciones educativas. Mi misión: llevar BookAR a cada aula de España.'),
+('Emilio Román', 'Nuñez Hurtado', NULL, 'CMO & Co-fundador',   'Responsable de la estrategia de marca y la experiencia de cliente. Creo firmemente en el poder de la educación inmersiva.');
 
 -- Catálogo oficial (12 SKUs). TRUNCATE de PRODUCTO requiere vaciar antes ventas que referencian GTIN.
 SET FOREIGN_KEY_CHECKS = 0;
