@@ -79,10 +79,10 @@ VALUES (
 
 -- Equipo fundador (Grupo 17)
 INSERT INTO EMPLEADO (nombre, apellidos, foto_url, puesto, bio) VALUES
-('Santiago', 'Pérez Delgado',     NULL, 'CEO & Co-fundador',   'Apasionado por transformar la educación mediante la tecnología. Lidero la visión estratégica de BookAR y las relaciones con centros educativos.'),
-('Francisco José', 'Ramos Moya',  NULL, 'CTO & Co-fundador',   'Arquitecto del motor de realidad aumentada que da vida a nuestros libros. Experto en desarrollo de software e integración AR.'),
+('Francisco José', 'Ramos Moya',  NULL, 'CEO & Co-fundador',   'Arquitecto del motor de realidad aumentada que da vida a nuestros libros. Lidero la visión estratégica y tecnológica de BookAR.'),
+('Santiago', 'Pérez Delgado',     NULL, 'CTO & Co-fundador',   'Apasionado por transformar la educación mediante la tecnología. Responsable del desarrollo del software y la plataforma AR.'),
 ('Santiago', 'Díaz Sabio',        NULL, 'COO & Co-fundador',   'Gestiono las operaciones y los acuerdos con instituciones educativas. Mi misión: llevar BookAR a cada aula de España.'),
-('Emilio Román', 'Nuñez Hurtado', NULL, 'CMO & Co-fundador',   'Responsable de la estrategia de marca y la experiencia de cliente. Creo firmemente en el poder de la educación inmersiva.');
+('Emilio Román', 'Nuñez Hurtado', NULL, 'CFO & Co-fundador',   'Responsable de la estrategia financiera y el crecimiento de BookAR. Garantizo que cada euro invertido genere impacto real.');
 
 -- Catálogo oficial (12 SKUs). TRUNCATE de PRODUCTO requiere vaciar antes ventas que referencian GTIN.
 SET FOREIGN_KEY_CHECKS = 0;
