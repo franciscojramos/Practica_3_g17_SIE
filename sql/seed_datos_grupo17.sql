@@ -4,6 +4,7 @@
 
 SET NAMES utf8mb4;
 
+TRUNCATE TABLE EMPLEADO;
 TRUNCATE TABLE EMPRESA;
 
 INSERT INTO EMPRESA (id_empresa, nombre, mision, vision, socios, color_primario, color_secundario)
@@ -16,6 +17,12 @@ VALUES (
     '#004B7A', -- Azul Corporativo
     '#F58220' -- Naranja AR
 );
+
+INSERT INTO EMPLEADO (nombre, apellidos, foto_url, puesto, bio) VALUES
+('Santiago',      'Pérez Delgado',  NULL, 'CEO & Co-fundador',  'Apasionado por transformar la educación mediante la tecnología. Lidero la visión estratégica de BookAR y las relaciones con centros educativos.'),
+('Francisco José','Ramos Moya',     NULL, 'CTO & Co-fundador',  'Arquitecto del motor de realidad aumentada que da vida a nuestros libros. Experto en desarrollo de software e integración AR.'),
+('Santiago',      'Díaz Sabio',     NULL, 'COO & Co-fundador',  'Gestiono las operaciones y los acuerdos con instituciones educativas. Mi misión: llevar BookAR a cada aula de España.'),
+('Emilio Román',  'Nuñez Hurtado',  NULL, 'CMO & Co-fundador',  'Responsable de la estrategia de marca y la experiencia de cliente. Creo firmemente en el poder de la educación inmersiva.');
 
 SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE DETALLE_VENTA;
